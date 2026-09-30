@@ -24,6 +24,19 @@ marts.agg_sales_monthly / agg_sales_by_state / agg_category_sales / agg_payments
 Dashboard interativo (KPIs, filtros, gráficos Plotly, explorador de tabelas)
 ```
 
+## Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Linguagem | Python 3.11+ |
+| Banco analítico | DuckDB (OLAP embarcado, zero infraestrutura) |
+| Transformação | dbt + dbt-duckdb |
+| Ingestão | Python + pandas |
+| Dashboard | Streamlit |
+| Visualização | Plotly |
+| Fonte de dados | Kaggle (dataset Olist) |
+| Versionamento | Git + GitHub |
+
 ## Dataset
 
 [Olist — Brazilian E-Commerce Public Dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce),
@@ -78,3 +91,32 @@ streamlit run app.py
 O app conecta em modo somente leitura (`read_only=True`), usa cache
 (`st.cache_data`, TTL 60s) e trata banco ausente ou marts não materializados
 com instruções de como rodar o pipeline.
+
+## Estrutura do repositório
+
+```
+duckdb-dbt-project/
+├── data/raw/                       # CSVs do Olist (não versionados)
+├── ingestion/load_raw.py           # CSVs -> schema raw no DuckDB
+├── dbt_project/
+│   ├── models/staging/             # 7 views de limpeza e padronização
+│   ├── models/marts/               # Fato, 3 dimensões e 4 agregações
+│   ├── dbt_project.yml
+│   └── profiles.yml
+├── app.py                          # Dashboard Streamlit
+├── requirements.txt
+└── README.md
+```
+
+## Testes de qualidade
+
+```bash
+cd dbt_project
+dbt test
+```
+
+Cobrem:
+
+- `unique` e `not_null` nas chaves primárias das dimensões
+- `relationships` entre `fct_order_items` e `dim_customers`
+- `accepted_values` em campos categóricos (ex: status de pedido)
