@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: fct_order_items
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+  - name: dim_customers
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+  - name: dim_products
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+  - name: dim_sellers
+    columns:
+      - name: seller_id
+        tests: [unique, not_null]

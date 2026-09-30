@@ -1,0 +1,13 @@
+Baixe os 9 CSVs do dataset Olist em:
+https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+
+Extraia e copie para esta pasta (data/raw/):
+- olist_orders_dataset.csv          (obrigatório)
+- olist_customers_dataset.csv       (obrigatório)
+- olist_order_items_dataset.csv     (obrigatório)
+- olist_products_dataset.csv        (obrigatório)
+- olist_sellers_dataset.csv         (obrigatório)
+- olist_order_payments_dataset.csv  (obrigatório)
+- olist_order_reviews_dataset.csv   (obrigatório)
+- product_category_name_translation.csv (obrigatório)
+- olist_geolocation_dataset.csv     (opcional — o pipeline não usa)
